@@ -45,7 +45,7 @@ public class App {
 								+ "CPF, Telefone, Endereco, numero, cidade, estado",
 						"Cadastro", JOptionPane.INFORMATION_MESSAGE);
 				cadastrar(dados);
-				
+
 			} else if (isConsultar(opcao)) {
 				String dados = JOptionPane.showInputDialog(null, "Digite o CPF.", "Consultar",
 						JOptionPane.INFORMATION_MESSAGE);
@@ -64,6 +64,11 @@ public class App {
 				alterar(dados);
 
 			}
+
+			opcao = JOptionPane.showInputDialog(null,
+					"Opção invalida! Digite 1 para cadastrar, "
+							+ "2 para Consultar, 3 para excluir, 4 para alterar ou 5 para sair",
+					"Cadastro", JOptionPane.INFORMATION_MESSAGE);
 
 		}
 
@@ -132,19 +137,10 @@ public class App {
 	}
 
 	private static void alterar(String dados) {
-		Cliente cliente = iClienteDAO.consultar(Long.parseLong(dados));
-		if(cliente != null) {
-			String[] dadosSeparados = dados.split(",");
-			cliente = new Cliente(dadosSeparados[0], dadosSeparados[1], dadosSeparados[2], dadosSeparados[3],
-				dadosSeparados[4], dadosSeparados[5], dadosSeparados[6]);
-			Boolean isCadastrado = iClienteDAO.cadastrar(cliente);
-			if (isCadastrado) {
-				JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso! ", "Sucesso",
-					JOptionPane.INFORMATION_MESSAGE);
-			}
-			JOptionPane.showMessageDialog(null, "Cliente não encontrado: ", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-		}
-		
+		String[] isAtualizar = dados.split(",");
+		Cliente cliente = new Cliente(isAtualizar[0], isAtualizar[1], isAtualizar[2], isAtualizar[3], isAtualizar[4],
+				isAtualizar[5], isAtualizar[6]);
+		iClienteDAO.alterar(cliente);
 	}
 
 	private static void sair() {
